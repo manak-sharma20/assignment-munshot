@@ -91,18 +91,21 @@ else:
     
     insights = []
     if not metrics_df.empty:
-        best_rating_brand = metrics_df.loc[metrics_df['avg_rating'].idxmax(), 'brand']
-        insights.append(f"Highest rated brand overall is **{best_rating_brand}**.")
+        if metrics_df['avg_rating'].notna().any():
+            best_rating_brand = metrics_df.loc[metrics_df['avg_rating'].idxmax(), 'brand']
+            insights.append(f"Highest rated brand overall is **{best_rating_brand}**.")
         
-        cheapest_brand = metrics_df.loc[metrics_df['avg_price'].idxmin(), 'brand']
-        insights.append(f"Most budget-friendly brand on average is **{cheapest_brand}**.")
+        if metrics_df['avg_price'].notna().any():
+            cheapest_brand = metrics_df.loc[metrics_df['avg_price'].idxmin(), 'brand']
+            insights.append(f"Most budget-friendly brand on average is **{cheapest_brand}**.")
         
-        if 'sentiment_score' in metrics_df.columns:
+        if 'sentiment_score' in metrics_df.columns and metrics_df['sentiment_score'].notna().any():
             best_sent_brand = metrics_df.loc[metrics_df['sentiment_score'].idxmax(), 'brand']
             insights.append(f"Brand with the most positive customer sentiment is **{best_sent_brand}**.")
             
-        most_discount = metrics_df.loc[metrics_df['avg_discount'].idxmax(), 'brand']
-        insights.append(f"Largest average discounts are currently offered by **{most_discount}**.")
+        if metrics_df['avg_discount'].notna().any():
+            most_discount = metrics_df.loc[metrics_df['avg_discount'].idxmax(), 'brand']
+            insights.append(f"Largest average discounts are currently offered by **{most_discount}**.")
         
         insights.append("Durability and wheel smoothness are the most frequently discussed features across top positive reviews.")
         
