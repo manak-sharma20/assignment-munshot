@@ -65,12 +65,12 @@ else:
     with col1:
         if not p_df.empty:
             fig1 = px.scatter(p_df, x="price", y="rating", color="brand", hover_data=["title"], title="Price vs. Rating", template="plotly_dark")
-            st.plotly_chart(fig1, use_container_width=True)
+            st.plotly_chart(fig1, width="stretch")
             
     with col2:
         if not p_df.empty:
             fig2 = px.box(p_df, x="brand", y="discount_pct", color="brand", title="Discount Distribution (%)", template="plotly_dark")
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width="stretch")
 
     st.header("Sentiment & Themes")
     col3, col4 = st.columns(2)
@@ -79,13 +79,13 @@ else:
         if not r_df.empty and 'sentiment_label' in r_df.columns:
             sent_counts = r_df.groupby(['brand', 'sentiment_label']).size().reset_index(name='count')
             fig3 = px.bar(sent_counts, x="brand", y="count", color="sentiment_label", barmode="group", title="Sentiment Distribution", template="plotly_dark")
-            st.plotly_chart(fig3, use_container_width=True)
+            st.plotly_chart(fig3, width="stretch")
             
     with col4:
         if not r_df.empty and 'pros_cons' in r_df.columns:
             st.subheader("Top Themes Extracted")
             themes_df = r_df[(r_df['pros_cons'].notna()) & (r_df['pros_cons'] != "")]
-            st.dataframe(themes_df[['brand', 'pros_cons', 'rating']].head(20), use_container_width=True)
+            st.dataframe(themes_df[['brand', 'pros_cons', 'rating']].head(20), width="stretch")
 
     st.header("Agent Insights")
     
